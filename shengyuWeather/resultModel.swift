@@ -13,7 +13,7 @@ struct coordInfo{
     var lat = 0.0
 }
 
-struct weather {
+struct weatherInfo {
     var id = 0
     var main = ""
     var description = ""
@@ -22,9 +22,12 @@ struct weather {
 
 class weatherModel{
     var coord : coordInfo
+    var weather : weatherInfo
+    var date : String = ""
     var id: Double = 0.0
     var name: String = ""
     init(){
         coord = coordInfo()
+        weather = weatherInfo()
     }
 }
