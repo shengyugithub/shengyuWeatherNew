@@ -9,20 +9,22 @@
 import UIKit
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UISearchBarDelegate {
     
     @IBOutlet var city: UILabel!
     @IBOutlet var weather: UILabel!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var time: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     var resultData : NSData?
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
      
       //  self.networkingRequest()
-       
+       self.searchBar.delegate = self
         //hello world!
     }
 
@@ -42,6 +44,7 @@ class ViewController: UIViewController {
                     let tempweatherdata =  self.getJsonData(dt)
                 dispatch_async(dispatch_get_main_queue()){
                     self.updateLabels(tempweatherdata)
+                    self.updateImage(tempweatherdata)
                 }
             }
         }
@@ -133,7 +136,8 @@ class ViewController: UIViewController {
             let dt = item["dt"] as? Int,
             let weather = item["weather"] as? [AnyObject],
             let weatherInfo = weather[0] as? [String :AnyObject],
-            let weatherDescription = weatherInfo["description"] as? String
+            let weatherDescription = weatherInfo["description"] as? String,
+            let weatherIcon = weatherInfo["icon"] as? String
 //        
             else{
                 return nil
@@ -143,11 +147,26 @@ class ViewController: UIViewController {
         weatherResult.name = name
         weatherResult.weather.description = weatherDescription
         weatherResult.date = date as String
+        weatherResult.image = weatherIcon
+        
         //
         return weatherResult
     }
     
     
+    func updateImage(Data: weatherModel?){
+        if let weatherData = Data{
+            self.imageView.image = UIImage.init(named: "\(weatherData.image)")
+        }else{
+            print("no data!")
+        }
+        
+    }
     
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if let text = searchBar.text{
+            print("\(text)")
+        }
+    }
     
 }

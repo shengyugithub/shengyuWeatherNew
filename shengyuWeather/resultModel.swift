@@ -25,7 +25,8 @@ class weatherModel{
     var weather : weatherInfo
     var date : String = ""
     var id: Double = 0.0
-    var name: String = ""
+    var name : String = ""
+    var image : String = ""
     init(){
         coord = coordInfo()
         weather = weatherInfo()
