@@ -20,9 +20,17 @@ struct weatherInfo {
     var icon = ""
 }
 
+struct mainInfo{
+    var temp = 0.0
+    var pressure = 0.0
+    var temp_min = 0.0
+    var temp_max = 0.0
+}
+
 class weatherModel{
     var coord : coordInfo
     var weather : weatherInfo
+    var main : mainInfo
     var date : String = ""
     var id: Double = 0.0
     var name : String = ""
@@ -30,5 +38,6 @@ class weatherModel{
     init(){
         coord = coordInfo()
         weather = weatherInfo()
+        main = mainInfo()
     }
 }

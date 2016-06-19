@@ -67,6 +67,16 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Temp:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rsJ-px-PWv">
+                                <rect key="frame" x="39" y="188" width="59" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <searchBar contentMode="redraw" fixedFrame="YES" text="City" translatesAutoresizingMaskIntoConstraints="NO" id="Nsf-xp-xfe">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XYs-e0-mRM">
                                 <rect key="frame" x="275" y="275" width="50" height="50"/>
                                 <constraints>
@@ -80,10 +90,12 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nsf-xp-xfe">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F16-op-bf5">
+                                <rect key="frame" x="148" y="188" width="84" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.35204628767046697" green="0.75647786247039306" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -121,6 +133,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="Temperature" destination="F16-op-bf5" id="EWa-I4-Om8"/>
                         <outlet property="city" destination="OCU-lr-T1u" id="Xv5-kk-Oww"/>
                         <outlet property="imageView" destination="XYs-e0-mRM" id="V6h-uT-sWd"/>
                         <outlet property="searchBar" destination="Nsf-xp-xfe" id="Ljn-8D-Ry7"/>
@@ -130,7 +143,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="150" y="63"/>
+            <point key="canvasLocation" x="69" y="-73"/>
         </scene>
     </scenes>
 </document>

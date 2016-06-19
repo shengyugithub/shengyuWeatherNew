@@ -16,10 +16,13 @@ class ViewController: UIViewController,UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var time: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var Temperature: UILabel!
+    
     var resultData : NSData?
     
     
     override func viewDidLoad() {
+      
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
      
@@ -37,9 +40,11 @@ class ViewController: UIViewController,UISearchBarDelegate {
         //1
         let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         
+        let url = urlWithSearchText(searchBar.text)
+        
         //2
         dispatch_async(queue){
-            self.networkingRequest()
+            self.networkingRequest(url!)
             if let dt = self.resultData{
                     let tempweatherdata =  self.getJsonData(dt)
                 dispatch_async(dispatch_get_main_queue()){
@@ -55,6 +60,7 @@ class ViewController: UIViewController,UISearchBarDelegate {
             self.city.text = weatherData.name
             self.weather.text = weatherData.weather.description
             self.time.text = weatherData.date
+            self.Temperature.text = "\(kelvinToCelsius(weatherData.main.temp))"
         }else{
             print("no label data!")
         }
@@ -70,16 +76,26 @@ class ViewController: UIViewController,UISearchBarDelegate {
 //       
         return weatherData
     }
-
-    func networkingRequest(){
+    
+    func urlWithSearchText(text : String?)-> NSURL?{
+        if let SearchText = text{
+            let url = NSURL(string : "http://api.openweathermap.org/data/2.5/weather?q=" + SearchText + "&appid=3d5b744314d045c612bda1540a4f503e")
+            print(url)
+            return url
+        }
+        return nil
+    }
+    
+    func networkingRequest(url : NSURL){
         
         let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
         var dataTask: NSURLSessionDataTask
         
 
      
-        let url = NSURL(string:  "http://api.openweathermap.org/data/2.5/weather?lat=34.26&lon=108.93&appid=3d5b744314d045c612bda1540a4f503e")
-        dataTask = defaultSession.dataTaskWithURL(url!){
+/*       let url = NSURL(string:  "http://api.openweathermap.org/data/2.5/weather? q=Xian&appid=3d5b744314d045c612bda1540a4f503e")
+ */
+        dataTask = defaultSession.dataTaskWithURL(url){
             data, response, error in
             dispatch_async(dispatch_get_main_queue()){
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -127,6 +143,11 @@ class ViewController: UIViewController,UISearchBarDelegate {
         return str
       
     }
+    //开尔文转换摄氏度
+    func kelvinToCelsius(kelvin : Double)->Double{
+        return kelvin - 273.15
+    }
+    
     
     private func parseDictionary(dictionary :[String :AnyObject])-> weatherModel?{
         let weatherResult = weatherModel()
@@ -134,11 +155,16 @@ class ViewController: UIViewController,UISearchBarDelegate {
         guard let item = dictionary as? [String :AnyObject],
             let name = item["name"] as? String,
             let dt = item["dt"] as? Int,
+            
+           
             let weather = item["weather"] as? [AnyObject],
             let weatherInfo = weather[0] as? [String :AnyObject],
             let weatherDescription = weatherInfo["description"] as? String,
-            let weatherIcon = weatherInfo["icon"] as? String
-//        
+            let weatherIcon = weatherInfo["icon"] as? String,
+            
+            let main = item["main"] as? [String : AnyObject],
+            let mainTemp = main["temp"] as? Double
+//
             else{
                 return nil
             }
@@ -148,6 +174,7 @@ class ViewController: UIViewController,UISearchBarDelegate {
         weatherResult.weather.description = weatherDescription
         weatherResult.date = date as String
         weatherResult.image = weatherIcon
+        weatherResult.main.temp = mainTemp
         
         //
         return weatherResult
@@ -166,7 +193,10 @@ class ViewController: UIViewController,UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         if let text = searchBar.text{
             print("\(text)")
+            urlWithSearchText(text)
+            refreshButtonClicked()
         }
+        
     }
     
 }
